@@ -2,36 +2,42 @@
 
 A personal sandbox for coding experiments and algorithm practice.
 
-AtCoder / 企業のコーディング試験用に、**言語ごとに独立した Dev Container** を用意している。
-ローカルには Docker だけあればよく、各言語のツールチェインはコンテナの中で完結する。
-
-## 構成
+AtCoder / コーディング試験用。言語ごとに Dev Container を分けているので、
+ローカルに必要なのは Docker だけ。
 
 ```
 playground/
-├── .devcontainer/
-│   ├── typescript/devcontainer.json   # Node.js 22（AtCoder のジャッジに合わせる）
-│   └── go/devcontainer.json           # Go 1.25
-├── typescript/                        # TypeScript の作業ディレクトリ
-└── go/                                # Go の作業ディレクトリ
+├── .devcontainer/typescript/devcontainer.json   # Node.js 22（AtCoder のジャッジに合わせる）
+└── typescript/                                   # 作業ディレクトリ
 ```
-
-Dev Container の仕様では `.devcontainer/<folder>/devcontainer.json` を 1 階層だけ探索するため、
-この置き方だと**リポジトリのルートを開いたまま言語を切り替えられる**（リポジトリ全体がマウントされるので git 操作もそのまま使える）。
 
 ## 使い方
 
-1. VS Code / Cursor でこのリポジトリのルートを開く
-2. コマンドパレット → **Dev Containers: Reopen in Container**
-3. `playground-typescript` / `playground-go` から使う言語を選ぶ
+1. VS Code / Cursor でこのリポジトリのルートを開き、**Dev Containers: Reopen in Container**
+2. 解く
 
-言語を切り替えるときは **Reopen in Container** で別の設定を選び直す。
-各言語の具体的な使い方は [typescript/README.md](typescript/README.md) / [go/README.md](go/README.md) を参照。
+```sh
+cp template.ts abc999_a.ts     # テンプレートをコピー
+# abc999_a.txt に入力サンプルを貼る
+node abc999_a.ts < abc999_a.txt   # ビルド不要（Node の type stripping）
+npm run check                      # 提出前に型チェック
+```
+
+動作確認: `node template.ts < sample.txt` → `6 test`
+
+## 提出時のメモ
+
+- 言語は **TypeScript 5.9 (tsc 5.9.2 (Node.js 22.19.0))** を選ぶ
+- ジャッジは `tsc` + `node`、ローカルは type stripping。この差で困らないよう
+  `erasableSyntaxOnly` を有効にして `enum` / `namespace` などを書けなくしてある
+- 出力は `print()` に溜める。`console.log` を N 回呼ぶと TLE の原因になる
+- 64bit 整数は `BigInt(next())` を使う（`number` は 2^53 まで）
 
 ## 言語を追加するとき
 
-1. `.devcontainer/<lang>/devcontainer.json` を作る（`image` と `workspaceFolder` の 2 行が最小構成）
-2. `<lang>/` に作業ディレクトリとテンプレートを置く
+`.devcontainer/<lang>/devcontainer.json` を足して、`<lang>/` を作るだけ。
+Dev Container 仕様が `.devcontainer/` の 1 階層下を探すので、ルートを開いたまま
+**Reopen in Container** で切り替えられる。
 
 ```json
 {
@@ -40,3 +46,5 @@ Dev Container の仕様では `.devcontainer/<folder>/devcontainer.json` を 1 �
   "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}/<lang>"
 }
 ```
+
+必要なら `.github/dependabot.yml` にその言語のエコシステムを 1 ブロック追記する。

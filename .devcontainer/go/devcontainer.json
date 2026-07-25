@@ -1,6 +1,0 @@
-{
-  "name": "playground-go",
-  // AtCoder のジャッジ (2025/10 更新) は go 1.25.1
-  "image": "mcr.microsoft.com/devcontainers/go:1.25-bookworm",
-  "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}/go"
-}
