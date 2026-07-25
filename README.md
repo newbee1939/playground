@@ -11,9 +11,21 @@ playground/
 └── typescript/                                   # 作業ディレクトリ
 ```
 
+## 準備
+
+Docker に加えて、エディタ側に Dev Containers 拡張が必要（これが無いと
+**Reopen in Container** がコマンドパレットに出てこない）。
+
+```sh
+cursor --install-extension anysphere.remote-containers   # Cursor
+code   --install-extension ms-vscode-remote.remote-containers   # VS Code
+```
+
+Cursor は Microsoft 版が使えないため Anysphere のフォークを入れる。
+
 ## 使い方
 
-1. VS Code / Cursor でこのリポジトリのルートを開き、**Dev Containers: Reopen in Container**
+1. Cursor / VS Code でこのリポジトリのルートを開き、**Dev Containers: Reopen in Container**
 2. 解く
 
 ```sh
@@ -24,6 +36,14 @@ npm run check                      # 提出前に型チェック
 ```
 
 動作確認: `node template.ts < sample.txt` → `6 test`
+
+エディタを使わずターミナルだけで入ることもできる。CLI は `.devcontainer/` 直下しか
+探さないので `--config` の指定が要る。
+
+```sh
+npx @devcontainers/cli up   --workspace-folder . --config .devcontainer/typescript/devcontainer.json
+npx @devcontainers/cli exec --workspace-folder . --config .devcontainer/typescript/devcontainer.json bash
+```
 
 ## 提出時のメモ
 
