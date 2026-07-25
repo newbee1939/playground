@@ -22,6 +22,8 @@ code   --install-extension ms-vscode-remote.remote-containers   # VS Code
 ```
 
 Cursor は Microsoft 版が使えないため Anysphere のフォークを入れる。
+`.vscode/extensions.json` に推奨として登録してあるので、リポジトリを初めて開いたときに
+インストールを促すダイアログも出る。
 
 ## 使い方
 
