@@ -1,0 +1,17 @@
+{
+  // Node.js 公式が「型を剥がして実行する (type stripping)」場合に推奨している設定
+  // https://nodejs.org/api/typescript.html
+  "compilerOptions": {
+    "target": "esnext",
+    "module": "nodenext",
+    "lib": ["ESNext"],
+    "types": ["node"],
+    "strict": true,
+    // tsc は型チェック専用に使い、実行は node が直接 .ts を読む
+    "noEmit": true,
+    // enum / namespace / parameter properties など「型を消すだけでは実行できない」構文を禁止する
+    "erasableSyntaxOnly": true,
+    "verbatimModuleSyntax": true
+  },
+  "include": ["**/*.ts"]
+}

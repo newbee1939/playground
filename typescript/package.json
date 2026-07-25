@@ -1,0 +1,13 @@
+{
+  "name": "playground-typescript",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "check": "tsc --noEmit",
+    "new": "cp template.ts"
+  },
+  "devDependencies": {
+    "@types/node": "^22.19.0",
+    "typescript": "~5.9.2"
+  }
+}
