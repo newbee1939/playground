@@ -31,13 +31,9 @@ Cursor は Microsoft 版が使えないため Anysphere のフォークを入れ
 2. 解く
 
 ```sh
-cp template.ts abc999_a.ts     # テンプレートをコピー
-# abc999_a.txt に入力サンプルを貼る
-node abc999_a.ts < abc999_a.txt   # ビルド不要（Node の type stripping）
+node template.ts < sample.txt   # ビルド不要（Node の type stripping）
 npm run check                      # 提出前に型チェック
 ```
-
-動作確認: `node template.ts < sample.txt` → `6 test`
 
 エディタを使わずターミナルだけで入ることもできる。CLI は `.devcontainer/` 直下しか
 探さないので `--config` の指定が要る。
