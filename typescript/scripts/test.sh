@@ -2,7 +2,9 @@
 # サンプルで実行して期待出力と比べる。使い方: ./scripts/test.sh atcoder/abc468/a [main.ts]
 set -eu
 cd "$(dirname "$0")/.."
-dir=${1:?usage: test.sh <dir> [file.ts]}
+[ $# -ge 1 ] || { echo "usage: test.sh <dir> [file.ts]" >&2; exit 1; }
+
+dir=$1
 src="$dir/${2:-main.ts}"
 
 status=0

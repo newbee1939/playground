@@ -36,8 +36,12 @@ code   --install-extension ms-vscode-remote.remote-containers
 以降は `typescript/` がカレントディレクトリになる。
 
 ```sh
-./scripts/new.sh atcoder/abc468/a          # ディレクトリと main.ts と tests/ を作る
+./scripts/new.sh atcoder/abc468 a b c d e f g   # 問題ごとに main.ts と tests/ を作る
+./scripts/new.sh practice fizzbuzz              # 企業のコーディング試験など
 ```
+
+第 1 引数が親ディレクトリ、残りが問題名。名前を並べた分だけまとめて作る。
+既にあるファイルは上書きしないので、後から `h` を足したくなったら同じコマンドを叩けばよい。
 
 `tests/1.in` に問題ページの「入力例 1」、`tests/1.out` に「出力例 1」を貼る。
 サンプルが増えたら `2.in` / `2.out` … と足す。あとは解いて、
