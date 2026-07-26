@@ -7,12 +7,13 @@ AtCoder / コーディング試験用。言語ごとに Dev Container を分け�
 playground/
 ├── .devcontainer/typescript/devcontainer.json   # Node.js 22（AtCoder のジャッジに合わせる）
 └── typescript/                                   # 作業ディレクトリ
+    ├── README.md                                 # コマンドの早見表（`npm run help`）
     ├── template.ts                               # 標準入出力のひな形
     ├── scripts/{new.sh,test.sh}
     ├── atcoder/<contest>/<problem>/              # 例: atcoder/abc468/a/
     │   ├── main.ts                               # 提出したコード
-    │   ├── alt.ts                                # 別解（任意）
-    │   └── tests/{1.in,1.out,2.in,2.out,...}     # サンプル入出力
+    │   ├── answer.ts                             # コンテスト後に正解を書き直す用
+    │   └── tests/{1,2,3}.{in,out}                # サンプル入出力
     └── practice/<name>/                          # 企業のコーディング試験など
 ```
 
@@ -36,7 +37,7 @@ code   --install-extension ms-vscode-remote.remote-containers
 以降は `typescript/` がカレントディレクトリになる。
 
 ```sh
-./scripts/new.sh atcoder/abc468 a b c d e f g   # 問題ごとに main.ts と tests/ を作る
+./scripts/new.sh atcoder/abc468 a b c d e f g   # 問題ごとに main.ts / answer.ts / tests/ を作る
 ./scripts/new.sh practice fizzbuzz              # 企業のコーディング試験など
 ```
 
@@ -44,15 +45,32 @@ code   --install-extension ms-vscode-remote.remote-containers
 既にあるファイルは上書きしないので、後から `h` を足したくなったら同じコマンドを叩けばよい。
 
 `tests/1.in` に問題ページの「入力例 1」、`tests/1.out` に「出力例 1」を貼る。
-サンプルが増えたら `2.in` / `2.out` … と足す。あとは解いて、
+枠は 3 つまで先に作ってあり、4 つ以上ある問題は `4.in` / `4.out` を手で足す。
+空のままの枠は読み飛ばされるので、埋めなくてよい。あとは解いて、
 
 ```sh
-./scripts/test.sh atcoder/abc468/a         # 全サンプルを実行して期待出力と比較
-./scripts/test.sh atcoder/abc468/a alt.ts  # main.ts 以外を試すとき
-npm run check                              # 提出前に型チェック
+./scripts/test.sh atcoder/abc468/a            # 全サンプルを実行して期待出力と比較
+./scripts/test.sh atcoder/abc468/a answer.ts  # main.ts 以外を試すとき
+npm run check                                 # 提出前に型チェック
 ```
 
 `AC` / `WA` / `RE` をケースごとに出力し、1 つでも落ちたら終了コード 1 を返す。
+
+コンテスト中は `main.ts` に提出したコードを残し、終わってから `answer.ts` に
+正しい解法を書き直す。どちらも `test.sh` で同じサンプルを流せる。
+
+### コンテナの中から使い方を確認する
+
+Dev Container ではこのルート README がファイルツリーに出てこないので、
+`typescript/README.md` にコマンドの早見表を置いてある。
+
+```sh
+npm run help    # typescript/README.md（コマンド早見表）を表示
+npm run rules   # このルート README を表示
+
+./scripts/new.sh --help
+./scripts/test.sh --help
+```
 
 ## AtCoder のルールまわり
 
@@ -74,7 +92,7 @@ Cursor 側のトグルで一時的に戻す。
   ユーザに帰属」とある
 - **問題文はコミットしない。** 権利は AtCoder 側に帰属する。参照は URL だけ残し、
   `tests/` に貼るのはサンプルの入出力データのみ
-- **解説や他人の提出コードもコミットしない。** 参考にしたら自分で書き直して `alt.ts` に置く
+- **解説や他人の提出コードもコミットしない。** 参考にしたら自分で書き直して `answer.ts` に置く
 
 ## 提出時のメモ
 

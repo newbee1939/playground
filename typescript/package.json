@@ -3,7 +3,9 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "check": "tsc --noEmit"
+    "check": "tsc --noEmit",
+    "help": "cat README.md",
+    "rules": "cat ../README.md"
   },
   "devDependencies": {
     "@types/node": "^22.19.0",
