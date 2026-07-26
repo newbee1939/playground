@@ -1,0 +1,7 @@
+{
+  "name": "playground-typescript",
+  // AtCoder のジャッジ (2025/10 更新) は Node.js 22.19.0 / tsc 5.9.2 なので 22 系に合わせる
+  "image": "mcr.microsoft.com/devcontainers/typescript-node:22-bookworm",
+  "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}/typescript",
+  "postCreateCommand": "npm install"
+}

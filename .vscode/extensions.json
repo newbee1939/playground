@@ -1,0 +1,5 @@
+{
+  // ホスト側に必要な拡張。これが無いと Reopen in Container が出てこない。
+  // Cursor で開いた場合は anysphere.remote-containers に読み替えられる。
+  "recommendations": ["ms-vscode-remote.remote-containers"]
+}

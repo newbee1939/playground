@@ -1,0 +1,10 @@
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /typescript
+    schedule:
+      interval: weekly
+    groups:
+      # typescript と @types/node をまとめて 1 本の PR にする
+      all:
+        patterns: ["*"]

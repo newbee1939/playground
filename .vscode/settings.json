@@ -1,0 +1,5 @@
+{
+  // AI によるインライン補完を切る。Cursor Tab / Copilot の両方に効く。詳細は README。
+  "editor.inlineSuggest.enabled": false,
+  "github.copilot.enable": { "*": false }
+}
