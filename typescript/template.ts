@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 
 function main() {
-  const input = fs.readFileSync('/dev/stdin', 'utf-8').trim().split(/\s+/);
+  const input = fs.readFileSync(0, 'utf-8').trim().split(/\s+/);
   // 要素の数
   const n = parseInt(input[0]);
   // 1列目の要素

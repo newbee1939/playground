@@ -1,0 +1,4 @@
+# AtCoder は開催中の生成 AI 利用を禁止しており、コード補完ツールもその対象
+# (https://info.atcoder.jp/entry/llm-rules-ja)。事故防止のため、このリポジトリ全体を
+# Cursor の AI 機能 (Tab / Chat / Agent / インデックス) から除外する。
+**/*
