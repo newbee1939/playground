@@ -1,14 +1,11 @@
 # playground
 
-A personal sandbox for coding experiments and algorithm practice.
-
 AtCoder / コーディング試験用。言語ごとに Dev Container を分けているので、
 ローカルに必要なのは Docker だけ。
 
 ```
 playground/
 ├── .devcontainer/typescript/devcontainer.json   # Node.js 22（AtCoder のジャッジに合わせる）
-├── .cursorignore                                 # AI 補完の無効化（後述）
 └── typescript/                                   # 作業ディレクトリ
     ├── template.ts                               # 標準入出力のひな形
     ├── scripts/{new.sh,test.sh}
@@ -20,30 +17,26 @@ playground/
 ```
 
 ディレクトリ名は AtCoder のコンテスト ID をそのまま使う（`abc468` なら
-<https://atcoder.jp/contests/abc468>）。スペースを含まないのでシェルから扱いやすく、
-URL とも一対一で対応する。
+<https://atcoder.jp/contests/abc468>）。
 
 ## 準備
 
 Docker に加えて、エディタ側に Dev Containers 拡張が必要（これが無いと
-**Reopen in Container** がコマンドパレットに出てこない）。
+**Reopen in Container** がコマンドパレットに出てこない）。Cursor は Microsoft 版が
+使えないため Anysphere のフォークを入れる。
 
 ```sh
-cursor --install-extension anysphere.remote-containers   # Cursor
-code   --install-extension ms-vscode-remote.remote-containers   # VS Code
+cursor --install-extension anysphere.remote-containers
+code   --install-extension ms-vscode-remote.remote-containers
 ```
-
-Cursor は Microsoft 版が使えないため Anysphere のフォークを入れる。
-`.vscode/extensions.json` に推奨として登録してあるので、リポジトリを初めて開いたときに
-インストールを促すダイアログも出る。
 
 ## 使い方
 
-Cursor / VS Code でこのリポジトリのルートを開き、**Dev Containers: Reopen in Container**。
+リポジトリのルートを開いて **Dev Containers: Reopen in Container**。
 以降は `typescript/` がカレントディレクトリになる。
 
 ```sh
-./scripts/new.sh atcoder/abc468/a        # ディレクトリと main.ts と tests/ を作る
+./scripts/new.sh atcoder/abc468/a          # ディレクトリと main.ts と tests/ を作る
 ```
 
 `tests/1.in` に問題ページの「入力例 1」、`tests/1.out` に「出力例 1」を貼る。
@@ -56,51 +49,28 @@ npm run check                              # 提出前に型チェック
 ```
 
 `AC` / `WA` / `RE` をケースごとに出力し、1 つでも落ちたら終了コード 1 を返す。
-比較は末尾の改行を無視するので、出力の最後に改行があってもなくても通る。
-`new.sh` は既存ファイルを上書きしないので、同じディレクトリに何度実行してもよい。
-
-エディタを使わずターミナルだけで入ることもできる。CLI は `.devcontainer/` 直下しか
-探さないので `--config` の指定が要る。
-
-```sh
-npx @devcontainers/cli up   --workspace-folder . --config .devcontainer/typescript/devcontainer.json
-npx @devcontainers/cli exec --workspace-folder . --config .devcontainer/typescript/devcontainer.json bash
-```
 
 ## AtCoder のルールまわり
 
-### 生成 AI
-
 ABC / ARC / AGC の**開催中は生成 AI の利用が禁止**されている。コード生成だけでなく、
-問題文の要約・**コード補完ツール（Copilot / Cursor Tab など）**・コンパイルエラーやバグの診断・
-プログラミング言語の変換・対話型の AI 検索も対象
-（[AtCoder生成AI対策ルール](https://info.atcoder.jp/entry/llm-rules-ja)）。
-例外は問題文の翻訳のみ。AHC と過去問練習は対象外。
+問題文の要約・**コード補完ツール（Copilot / Cursor Tab など）**・バグの診断・
+言語の変換・対話型の AI 検索も対象（[AtCoder生成AI対策ルール](https://info.atcoder.jp/entry/llm-rules-ja)）。
+うっかり補完が出る事故を防ぐため、`.cursorignore` でリポジトリ全体を Cursor の AI 機能から
+除外し、`.vscode/settings.json` でインライン補完を切り、`CLAUDE.md` で Claude Code にも
+開催中は手伝わないよう指示している。AHC と過去問練習は対象外なので、復習で使いたいときは
+Cursor 側のトグルで一時的に戻す。
 
-うっかり補完が出てしまう事故を防ぐため、リポジトリ側で常時オフにしてある。
+公開まわりは以下のとおり。
 
-| ファイル | 効果 |
-| --- | --- |
-| `.cursorignore`（`**/*`） | リポジトリ全体を Cursor の Tab / Chat / Agent / インデックスから除外 |
-| `.vscode/settings.json` | `editor.inlineSuggest.enabled: false` でインライン補完を停止。Copilot も無効化 |
-| `CLAUDE.md` | Claude Code に「開催中の問題は手伝わない」ことを指示 |
-
-`.cursorignore` は `.gitignore` と同じ記法で、書かれたファイルを AI 機能から完全に遮断する
-（インデックスだけ外す `.cursorindexingignore` とは別物）。過去問の復習では AI を使ってよいので、
-必要なときは Cursor 側のトグルで一時的に戻す。
-
-### 公開してよいもの / いけないもの
-
-- **push はコンテスト終了後に行う。** 開催中は解法の共有が禁止されており
+- **push はコンテスト終了後。** 開催中は解法の共有が禁止されており
   （[コンテストのルール](https://info.atcoder.jp/overview/contest/rules)）、
   public リポジトリへの push は共有にあたる
-- **自分のコードは公開してよい。** 利用規約に「本サービスに対して投稿されたプログラムの
-  所有権と著作権は、そのプログラムを作成したユーザに帰属」とある
-  （[利用規約](https://atcoder.jp/tos?lang=ja)）
-- **問題文はコミットしない。** ユーザ自身が作成したものを除き権利は AtCoder 側に帰属する。
-  参照は URL だけ残し、`tests/` に貼るのはサンプルの入出力データのみにする
-- **解説や他人の提出コードはコミットしない。** 著作権はその作者にある。参考にしたら
-  自分で書き直したものを `alt.ts` として置く
+- **自分のコードは公開してよい。** [利用規約](https://atcoder.jp/tos?lang=ja)に
+  「本サービスに対して投稿されたプログラムの所有権と著作権は、そのプログラムを作成した
+  ユーザに帰属」とある
+- **問題文はコミットしない。** 権利は AtCoder 側に帰属する。参照は URL だけ残し、
+  `tests/` に貼るのはサンプルの入出力データのみ
+- **解説や他人の提出コードもコミットしない。** 参考にしたら自分で書き直して `alt.ts` に置く
 
 ## 提出時のメモ
 
@@ -112,17 +82,6 @@ ABC / ARC / AGC の**開催中は生成 AI の利用が禁止**されている�
 
 ## 言語を追加するとき
 
-`.devcontainer/<lang>/devcontainer.json` を足して、`<lang>/` を作るだけ。
-Dev Container 仕様が `.devcontainer/` の 1 階層下を探すので、ルートを開いたまま
-**Reopen in Container** で切り替えられる。
-
-```json
-{
-  "name": "playground-<lang>",
-  "image": "mcr.microsoft.com/devcontainers/<lang>:<version>",
-  "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}/<lang>"
-}
-```
-
-`scripts/` は実行コマンドが言語依存なので言語ごとに置く。
-必要なら `.github/dependabot.yml` にその言語のエコシステムを 1 ブロック追記する。
+`.devcontainer/<lang>/devcontainer.json`（`workspaceFolder` を `<lang>/` にする）と
+`<lang>/scripts/` を足す。Dev Container 仕様が `.devcontainer/` の 1 階層下を探すので、
+ルートを開いたまま **Reopen in Container** で切り替えられる。

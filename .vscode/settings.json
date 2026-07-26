@@ -1,7 +1,5 @@
 {
-  // AtCoder はコード補完ツールを含む生成 AI の利用を禁止しているため、
-  // インライン補完をワークスペース単位で切る。Cursor Tab / Copilot の両方に効く。
-  // 詳細は .cursorignore と CLAUDE.md を参照。
+  // AI によるインライン補完を切る。Cursor Tab / Copilot の両方に効く。詳細は README。
   "editor.inlineSuggest.enabled": false,
   "github.copilot.enable": { "*": false }
 }

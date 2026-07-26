@@ -2,9 +2,7 @@
 # 問題用のディレクトリを作る。使い方: ./scripts/new.sh atcoder/abc468/a
 set -eu
 cd "$(dirname "$0")/.."
-
-[ $# -eq 1 ] || { echo "usage: $0 <dir>   e.g. atcoder/abc468/a" >&2; exit 1; }
-dir=$1
+dir=${1:?usage: new.sh <dir>}
 
 mkdir -p "$dir/tests"
 # 既にあるファイルは上書きしない
