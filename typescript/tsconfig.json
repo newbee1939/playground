@@ -1,14 +1,28 @@
 {
-  // node が .ts を直接実行する (type stripping) 前提の設定
+  // node が .ts を直接実行する (type stripping) 前提の設定。
+  // type stripping = 型注釈を「消すだけ」で JS として動かす仕組み。変換は一切されない。
+  // そのため tsc はビルドには使わず、型チェッカーとしてのみ使う (npm run check)。
   // https://nodejs.org/api/typescript.html
   "compilerOptions": {
+    // 書いてよい構文の上限。出力しないので downlevel は起きず、最新構文をそのまま使う
     "target": "esnext",
+    // 読み込む標準ライブラリの型。指定しないと DOM (document, localStorage 等) まで
+    // 混ざって「Node には無いのに型が通る」状態になるので、明示的に esnext だけに絞る
+    "lib": ["esnext"],
+    // Node と同じルールでモジュールを解決する。package.json の "type" を見て
+    // ESM/CJS を判定し、拡張子必須などの制約も実際の実行時と揃う
     "module": "nodenext",
+    // 自動で読み込む @types/* を node だけに限定する (既定は @types 配下を全部読む)
     "types": ["node"],
+    // null チェックや暗黙の any など、厳格系フラグの一括 ON
     "strict": true,
+    // JS を出力しない。tsc は型チェック専用として動かす
     "noEmit": true,
-    // 型を消すだけでは実行できない構文 (enum / namespace など) を禁止する
+    // 型を消すだけでは実行できない構文 (enum / namespace / constructor(private x) など) を禁止する。
+    // これらは変換が必要なため、type stripping では実行時に落ちる
     "erasableSyntaxOnly": true,
+    // import/export を書いたまま残し、型だけの import には import type を強制する。
+    // これが無いと型用の import が実行時に残り、存在しない値を読んで落ちる
     "verbatimModuleSyntax": true
   }
 }
