@@ -18,21 +18,13 @@
 import * as fs from 'fs';
 
 function main() {
-  // 文字列化せず Buffer（生バイト列）のまま数字を組み立てる。
-  // '0' のバイト値は 48、空白は 32、改行は 10 → 「48 以上なら数字」で判定できる。
-  const inputBytes = fs.readFileSync(0); // 0 は標準入力を指す番号
-  let cursor = 0; // 入力のどこまで読んだか。前にしか進まない
+  // 入力全体を空白・改行で区切って 1 つの配列にする。
+  // サンプル 1 なら ["2","5","1","2","1","2","1","1","2","2"]
+  const numbers = fs.readFileSync(0, 'utf-8').trim().split(/\s+/); // 0 は標準入力
 
-  // 入力に書かれた数字を、頭から 1 個ずつ返す。配列の中身とは無関係
-  const readNextNumber = (): number => {
-    while (inputBytes[cursor] < 48) cursor++; // 空白・改行を飛ばす
-    let value = 0;
-    // "123" なら 1 → 12 → 123 と桁をずらしながら組み立てる
-    while (cursor < inputBytes.length && inputBytes[cursor] >= 48) {
-      value = value * 10 + (inputBytes[cursor++] - 48);
-    }
-    return value;
-  };
+  // 読んだ位置を覚えておき、呼ぶたびに次の数字を返す。前にしか進まない
+  let cursor = 0;
+  const readNextNumber = (): number => Number(numbers[cursor++]);
 
   const n = readNextNumber(); // 数列の長さ
   const q = readNextNumber(); // クエリの個数
