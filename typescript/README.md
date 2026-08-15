@@ -65,3 +65,10 @@ leetcode/<0 埋め 4 桁の id>-<slug>/   # 例: leetcode/0001-two-sum/
 - 出力は溜めて最後に 1 回書き出す。`console.log` を N 回呼ぶと TLE の原因になる
 - 64bit 整数は `BigInt(...)` を使う（`number` は 2^53 まで）
 - `enum` / `namespace` は `erasableSyntaxOnly` で禁止してある（ローカルの type stripping で動かないため）
+
+## その他
+
+⭐️AtCoderを解く際は、自分の過去の解答も参考にする。
+
+- https://neetcode.io/
+- https://leetcode.com/
