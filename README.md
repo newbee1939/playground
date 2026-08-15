@@ -1,6 +1,6 @@
 # playground
 
-AtCoder / コーディング試験用。言語ごとに Dev Container を分けているので、
+AtCoder / LeetCode / コーディング試験用。言語ごとに Dev Container を分けているので、
 ローカルに必要なのは Docker だけ。
 
 ```
@@ -9,11 +9,15 @@ playground/
 └── typescript/                                   # 作業ディレクトリ
     ├── README.md                                 # コマンドの早見表（`npm run help`）
     ├── template.ts                               # 標準入出力のひな形
-    ├── scripts/{new.sh,test.sh}
+    ├── scripts/{new.sh,test.sh,new-leetcode.sh}
     ├── atcoder/<contest>/<problem>/              # 例: atcoder/abc468/a/
     │   ├── main.ts                               # 提出したコード
     │   ├── answer.ts                             # コンテスト後に正解を書き直す用
     │   └── tests/{1,2,3}.{in,out}                # サンプル入出力
+    ├── leetcode/<id>-<slug>/                     # 例: leetcode/0001-two-sum/
+    │   ├── solution.ts                           # 提出した関数
+    │   ├── solution.test.ts                      # Example をアサーションで
+    │   └── README.md                             # 方針・計算量・学び
     └── practice/<name>/                          # 企業のコーディング試験など
 ```
 
@@ -58,6 +62,20 @@ npm run check                                 # 提出前に型チェック
 
 コンテスト中は `main.ts` に提出したコードを残し、終わってから `answer.ts` に
 正しい解法を書き直す。どちらも `test.sh` で同じサンプルを流せる。
+
+### LeetCode
+
+標準入出力ではなく関数を提出する形式なので、サンプルは `tests/*.in` ではなく
+Node 標準のテストランナー（`node:test`）でアサーションとして書く。追加ライブラリは無い。
+
+```sh
+./scripts/new-leetcode.sh 1 two-sum   # leetcode/0001-two-sum/ に 3 ファイル作る
+npm test                              # leetcode 配下のテストを全部流す
+```
+
+`solution.ts` が提出するコード、`solution.test.ts` に問題ページの Example を書き、
+解き終わったら `README.md` に方針・計算量・学びを残す。ディレクトリ名の slug は
+URL の末尾（`https://leetcode.com/problems/two-sum/` なら `two-sum`）。
 
 ### コンテナの中から使い方を確認する
 
