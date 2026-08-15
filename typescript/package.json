@@ -4,6 +4,7 @@
   "type": "module",
   "scripts": {
     "check": "tsc --noEmit",
+    "test": "node --test \"leetcode/**/*.test.ts\"",
     "help": "cat README.md",
     "rules": "cat ../README.md"
   },
