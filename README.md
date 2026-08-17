@@ -13,7 +13,7 @@ playground/
     ├── atcoder/<contest>/<problem>/              # 例: atcoder/abc468/a/
     │   ├── main.ts                               # 提出したコード
     │   ├── answer.ts                             # コンテスト後に正解を書き直す用
-    │   └── tests/{1,2,3}.{in,out}                # サンプル入出力
+    │   └── tests/{1,2,3,4}.{in,out}              # サンプル入出力
     ├── leetcode/<id>-<slug>/                     # 例: leetcode/0001-two-sum/
     │   ├── solution.ts                           # 提出した関数
     │   ├── solution.test.ts                      # Example をアサーションで
@@ -49,7 +49,7 @@ code   --install-extension ms-vscode-remote.remote-containers
 既にあるファイルは上書きしないので、後から `h` を足したくなったら同じコマンドを叩けばよい。
 
 `tests/1.in` に問題ページの「入力例 1」、`tests/1.out` に「出力例 1」を貼る。
-枠は 3 つまで先に作ってあり、4 つ以上ある問題は `4.in` / `4.out` を手で足す。
+枠は 4 つまで先に作ってあり、5 つ以上ある問題は `5.in` / `5.out` を手で足す。
 空のままの枠は読み飛ばされるので、埋めなくてよい。あとは解いて、
 
 ```sh

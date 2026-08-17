@@ -4,7 +4,7 @@ set -eu
 cd "$(dirname "$0")/.."
 
 # 最初から用意するサンプルの枠の数
-samples=3
+samples=4
 
 usage() {
   cat <<'EOS'
@@ -16,14 +16,14 @@ usage: ./scripts/new.sh <parent> <name>...
 問題ごとに作るもの:
   <parent>/<name>/main.ts            提出するコード（template.ts のコピー）
   <parent>/<name>/answer.ts          コンテスト後に正解を書き直す用（同上）
-  <parent>/<name>/tests/{1,2,3}.in   サンプル入力
-  <parent>/<name>/tests/{1,2,3}.out  サンプル出力
+  <parent>/<name>/tests/{1,2,3,4}.in   サンプル入力
+  <parent>/<name>/tests/{1,2,3,4}.out  サンプル出力
 
 例:
   ./scripts/new.sh atcoder/abc468 a b c d e f g   AtCoder のコンテスト
   ./scripts/new.sh practice fizzbuzz              企業のコーディング試験など
 
-サンプルが 4 つ以上ある問題は tests/4.in と 4.out を手で足す。
+サンプルが 5 つ以上ある問題は tests/5.in と 5.out を手で足す。
 中身が空の .in は test.sh が読み飛ばすので、余った枠は放っておいてよい。
 EOS
 }

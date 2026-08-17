@@ -35,11 +35,11 @@ npm run check                                   # 提出前に型チェック（
 atcoder/<contest>/<problem>/     # 例: atcoder/abc468/a/
 ├── main.ts                      # 提出したコード
 ├── answer.ts                    # コンテスト後に正解を書き直す用
-└── tests/{1,2,3}.{in,out}       # サンプル入出力（枠は new.sh が 3 つ作る）
+└── tests/{1,2,3,4}.{in,out}     # サンプル入出力（枠は new.sh が 4 つ作る）
 ```
 
 `tests/1.in` に問題ページの「入力例 1」、`tests/1.out` に「出力例 1」を貼る。
-サンプルが 4 つ以上ある問題は `4.in` / `4.out` を手で足す。
+サンプルが 5 つ以上ある問題は `5.in` / `5.out` を手で足す。
 空のままの枠は `test.sh` が読み飛ばすので、埋めなくてよい。
 
 ## LeetCode
