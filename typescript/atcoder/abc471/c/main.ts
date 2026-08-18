@@ -8,28 +8,27 @@ function main() {
 
   // 現在の座標位置
   let cur = 0;
-  // 移動距離
+  // 移動距離（最終的な答え）
   let answer = 0;
 
   while (nums.size !== 0) {
-    const min = new Map();
-    nums.forEach((num) => {
-      min.set(num, Math.abs(num - cur));
-    })
+    const targetNum = Array.from(nums).sort((a, b) => {
+      // 前後のabsを計算
+      const firstAbs = Math.abs(a - cur);
+      const secondAbs = Math.abs(b - cur);
 
-    // 「curとの絶対値（距離）」と「実際の値」が小さい順に並び替える
-    const sorted = Array.from(min).sort((a, b) => {
-      if (a[1] === b[1]) {
-        // 絶対値が同じ場合はより小さい方を優先
-        return a[0] - b[0];
+      if (firstAbs === secondAbs) {
+        // 絶対値が同じ場合は、数字がより小さい方を優先
+        return a - b;
       } else {
-        return a[1] - b[1];
+        // それ以外は単純に絶対値で比較
+        return firstAbs - secondAbs;
       }
     })[0];
 
     // curとanswerの値を更新
-    answer += sorted[1];
-    cur = sorted[0];
+    answer += Math.abs(targetNum - cur);
+    cur = targetNum;
     // numsの値を減らす
     nums.delete(cur);
   }
