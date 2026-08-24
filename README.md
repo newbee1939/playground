@@ -9,10 +9,11 @@ playground/
 └── typescript/                                   # 作業ディレクトリ
     ├── README.md                                 # コマンドの早見表（`npm run help`）
     ├── template.ts                               # 標準入出力のひな形
-    ├── scripts/{new.sh,test.sh,new-leetcode.sh}
+    ├── scripts/{new.sh,test.sh,bench.sh,new-leetcode.sh}
     ├── atcoder/<contest>/<problem>/              # 例: atcoder/abc468/a/
     │   ├── main.ts                               # 提出したコード
     │   ├── answer.ts                             # コンテスト後に正解を書き直す用
+    │   ├── gen.ts                                # 最悪ケースの生成（bench.sh 用）
     │   └── tests/{1,2,3,4}.{in,out}              # サンプル入出力
     ├── leetcode/<id>-<slug>/                     # 例: leetcode/0001-two-sum/
     │   ├── solution.ts                           # 提出した関数
@@ -59,6 +60,18 @@ npm run check                                 # 提出前に型チェック
 ```
 
 `AC` / `WA` / `RE` をケースごとに出力し、1 つでも落ちたら終了コード 1 を返す。
+
+サンプルは小さいので、これが全部 AC でも TLE かどうかは分からない。制約に 10^5 以上が
+あったら提出前に最悪ケースも流す。
+
+```sh
+./scripts/bench.sh atcoder/abc468/a           # gen.ts で最大ケースを作り、実行時間を測る
+LIMIT=3 ./scripts/bench.sh atcoder/abc468/a   # 実行時間制限が 3 秒の問題
+```
+
+初回は `gen.ts` の雛形が作られるので、問題の制約を見て N などを最大値に書き換える。
+制限時間を超えたら終了コード 1。N を 2 倍にして時間が 4 倍になるなら O(N²) なので、
+定数倍の工夫ではなく解法から見直す。
 
 コンテスト中は `main.ts` に提出したコードを残し、終わってから `answer.ts` に
 正しい解法を書き直す。どちらも `test.sh` で同じサンプルを流せる。

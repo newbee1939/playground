@@ -15,6 +15,9 @@ Dev Container の入り方・AtCoder のルール・提出時のメモはリポ�
 ./scripts/test.sh atcoder/abc468/a              # 全サンプルを実行して期待出力と比較
 ./scripts/test.sh atcoder/abc468/a answer.ts    # main.ts 以外を試すとき
 
+./scripts/bench.sh atcoder/abc468/a             # 最悪ケースを作って実行時間を測る（TLE 検出）
+LIMIT=3 ./scripts/bench.sh atcoder/abc468/a     # 実行時間制限が 3 秒の問題
+
 ./scripts/new-leetcode.sh 1 two-sum             # LeetCode の問題ディレクトリを作る
 npm test                                        # leetcode 配下のテストを全部流す
 node --test "leetcode/0001-two-sum/*.test.ts"   # 1 問だけ流すとき
@@ -27,6 +30,7 @@ npm run check                                   # 提出前に型チェック（
 ```sh
 ./scripts/new.sh --help
 ./scripts/test.sh --help
+./scripts/bench.sh --help
 ```
 
 ## 問題ディレクトリ
@@ -35,6 +39,7 @@ npm run check                                   # 提出前に型チェック（
 atcoder/<contest>/<problem>/     # 例: atcoder/abc468/a/
 ├── main.ts                      # 提出したコード
 ├── answer.ts                    # コンテスト後に正解を書き直す用
+├── gen.ts                       # 最悪ケースの生成（bench.sh が初回に雛形を作る）
 └── tests/{1,2,3,4}.{in,out}     # サンプル入出力（枠は new.sh が 4 つ作る）
 ```
 
@@ -62,6 +67,7 @@ leetcode/<0 埋め 4 桁の id>-<slug>/   # 例: leetcode/0001-two-sum/
 
 ## 詰まりやすいところ
 
+- サンプルが AC でも TLE は分からない。制約に 10^5 以上があったら `bench.sh` を 1 回叩く
 - 出力は溜めて最後に 1 回書き出す。`console.log` を N 回呼ぶと TLE の原因になる
 - 64bit 整数は `BigInt(...)` を使う（`number` は 2^53 まで）
 - `enum` / `namespace` は `erasableSyntaxOnly` で禁止してある（ローカルの type stripping で動かないため）

@@ -73,8 +73,10 @@ sum = sum - a[-1] + a[i]; // a[-1] は undefined → sum は NaN のまま戻ら
 ## 4. 提出前の定型
 
 ```sh
-./scripts/test.sh atcoder/<contest>/<problem>   # サンプル
-npm run check                                   # 型チェック
+./scripts/test.sh atcoder/<contest>/<problem>    # サンプル
+./scripts/bench.sh atcoder/<contest>/<problem>   # 最悪ケースの実行時間（gen.ts が要る）
+npm run check                                    # 型チェック
 ```
 
 加えて、出力は溜めて最後に 1 回（`console.log` の連打は TLE 要因）。
+`bench.sh` は初回に `gen.ts` の雛形を作るので、問題の制約を見て最大値に書き換える。
