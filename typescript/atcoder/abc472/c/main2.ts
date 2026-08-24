@@ -1,3 +1,9 @@
+// NOTE: このコードは全サンプル WA（出力が全部 No になる）。原因は下の sum の行。
+//   i=1 のとき baseIndex は 0 なので calories[baseIndex - 1] は calories[-1] = undefined。
+//   undefined を算術に混ぜた時点で sum は NaN になり、以後どんな値を足し引きしても NaN のまま。
+//   NaN は「<=」も「>」も常に false を返すので、if (sum <= k) が一度も成立せず全日 No になる。
+//   差分更新で引くべきは「窓からこぼれる日」= 添字 i - m で、i >= m のときだけ引く。
+//   正しい実装は answer.ts を参照。
 import * as fs from 'fs';
 
 function main() {
@@ -21,6 +27,8 @@ function main() {
 
     // baseIndexの一つ前のindexの値を引き、現在のiの値を足す
     // baseIndexが0の場合の考慮が必要？
+    // → 必要。baseIndex が 0 だと calories[-1] が undefined になり、sum が NaN に落ちて戻らない。
+    //   さらに i 日目（1-indexed）の値は calories[i] ではなく calories[i - 1] で、添字も 1 つずれている。
     sum = sum - calories[baseIndex - 1] + calories[i];
 
     if (sum <= k) {
