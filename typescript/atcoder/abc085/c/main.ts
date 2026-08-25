@@ -31,6 +31,7 @@ function main() {
       !tmp ? moneyMap.set("1000", tmp+1) : moneyMap.set("1000", 1);
       n--;
     } else {
+      // どの値でも割り切れなくなったら終了
       break;
     }
   }
