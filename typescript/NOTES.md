@@ -95,3 +95,36 @@ console.log([a, b, c].join(' ')); // number[] なので ${} の付け忘れが�
 
 同じ理由で、答えの持ち方は `Map<string, number>` より固定長のタプルの方が安全。
 `map.get('10000')` は `number | undefined` を返し、`undefined + 1` は例外ではなく `NaN`（項目 3 参照）。
+
+## 6. `Set` / `Map` は挿入順を保つ（ABC474 C）
+
+JS の `Set` と `Map` は**挿入順**で反復すると仕様で決まっている。
+すでに入っている値を `add` し直しても順番は変わらないが、
+`delete` してから `add` すると**末尾に入り直す**。
+
+```ts
+const s = new Set([1, 2, 3]);
+s.add(1); // 1 2 3（変わらない）
+s.delete(1);
+s.add(1); // 2 3 1（末尾へ移動）
+```
+
+「要素を末尾に移す」操作が O(1) で書けるので、連結リスト相当のことができる。
+ただし挿入順という前提が読み手に見えないので、意図はコメントで書く。
+
+参考: [Set - MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set)
+（"iterates its elements in insertion order"）
+
+## 7. 長い配列の連結に `push(...arr)` を使わない（ABC474 C）
+
+`a.push(...b)` のスプレッドは、**b の要素を 1 つずつ引数として積む**呼び出しに展開される。
+引数はコールスタックに載るので、要素数が多いと `RangeError: Maximum call stack size exceeded`
+で落ちる（Node 22 の手元計測では 15 万件で既にアウト）。
+
+```ts
+a.push(...b); // NG: b が長いと RangeError
+const merged = a.concat(b); // OK: 新しい配列を返す（a も b も変わらない）
+for (const v of b) a.push(v); // OK: a を伸ばしたいならこちら
+```
+
+同じ理由で `Math.max(...arr)` も長い配列では落ちる。`arr.reduce((m, v) => (v > m ? v : m), -Infinity)` にする。
