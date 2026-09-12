@@ -30,6 +30,10 @@ const a = input.slice(1).map(Number); // ここで number[] にしておく
 - 型で気づけるようにしたいなら、比較する変数に `number` の注釈を付けておくと
   `string` が紛れ込んだ時点で `npm run check` が落ちる
 - `2^53` を超える値を扱う問題では `Number` ではなく `BigInt` を使う
+  - 判断は「入力の桁数」ではなく **その値が計算・比較に効くか**。ABC475 C は `L <= 10^18`
+    （安全整数 `2^53` ≈ `9*10^15` 超）だが、比べる相手の移動距離は最大 `8*10^12` にしかならない。
+    `L` が巨大なときは誤差（`10^18` 付近で 128 刻み）に関係なく必ず「L 以下」と判定されるので
+    `Number` で安全。両辺が同じ桁まで伸びる（足し合わせて `10^18` に達する）なら `BigInt` が必要
 
 参考: [Array.prototype.map() - MDN](https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Array/map)、
 [関係演算子の比較アルゴリズム - ECMAScript 仕様](https://tc39.es/ecma262/#sec-islessthan)
